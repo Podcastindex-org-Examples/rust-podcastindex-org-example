@@ -14,8 +14,7 @@ fn main() {
     let api_secret: &str = "12345678abcdefg";
     let api_time = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time mismatch.").as_secs().to_string();
 
-
-    //##: Create the authorization token
+    //##: Create the authorization token.
     //##: The auth token is built by creating an sha1 hash of the key, secret and current time (as a string)
     //##: concatenated together. The hash is a lowercase string.
     let data4hash: String = format!("{}{}{}", api_key, api_secret, api_time);
@@ -26,12 +25,10 @@ fn main() {
     let api_hash: String = format!("{:X}", authorization_token).to_lowercase();
     println!("Hash String: [{}]", api_hash);
 
-
     //##: Set up the parameters and the api endpoint url to call and make sure all params are
     //##: url encoded before sending.
     let query: String = "bastiat".to_string();
     let url: String = format!("https://api.podcastindex.org/api/1.0/search/byterm?q={}", urlencoding::encode(query.as_str()));
-
 
     //##: Build the query with the required headers
     let mut headers = header::HeaderMap::new();
@@ -40,7 +37,6 @@ fn main() {
     headers.insert("X-Auth-Key", header::HeaderValue::from_static(api_key));
     headers.insert("Authorization", header::HeaderValue::from_str(api_hash.as_str()).unwrap());
     let client = reqwest::blocking::Client::builder().default_headers(headers).build().unwrap();
-
 
     //##: Send the request and display the results or the error
     let res = client.get(url.as_str()).send();
@@ -53,7 +49,6 @@ fn main() {
             eprintln!("Error: [{}]", e);
         }
     }
-
 
     //##: Finished
     ()
