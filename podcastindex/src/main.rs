@@ -8,15 +8,15 @@ fn main() {
     println!("Running...");
 
     //##: ======== Required values ======== 
-	//##: WARNING: don't publish these to public repositories or in public places!
-	//##: NOTE: values below are sample values, to get your own values go to https://api.podcastindex.org 
+    //##: WARNING: don't publish these to public repositories or in public places!
+    //##: NOTE: values below are sample values, to get your own values go to https://api.podcastindex.org 
     let api_key: &str = "ABCDEFG";
     let api_secret: &str = "12345678abcdefg";
     let api_time = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time mismatch.").as_secs().to_string();
 
 
     //##: Create the authorization token
-    //##: The auth token is a built by creating an sha1 hash of the key, secret and current time (as a string)
+    //##: The auth token is built by creating an sha1 hash of the key, secret and current time (as a string)
     //##: concatenated together. The hash is a lowercase string.
     let data4hash: String = format!("{}{}{}", api_key, api_secret, api_time);
     println!("Data to hash: [{}]", data4hash);
